@@ -6,7 +6,7 @@ public class IndianStateCodeMain {
         StateCode stateCode = new StateCode();
         try{
 
-            stateCode.loadIndianStateCode("C:\\Users\\asaha\\Desktop\\Java_Fellowship_242\\Indian_States_Census_Analyser_Problem_ALL\\src\\main\\resources\\StateCode.csv");
+            stateCode.loadIndianStateCode("C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCode.csv");
 
         }
         catch (StateCodeCustomException e) {

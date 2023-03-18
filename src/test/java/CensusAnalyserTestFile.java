@@ -1,5 +1,7 @@
 import org.example.CensusAnalyser;
 import org.example.CensusAnalyzerCustomException;
+import org.example.StateCode;
+import org.example.StateCodeCustomException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +18,8 @@ public class CensusAnalyserTestFile {
 
     private static final String CSV_WITH_INCORRECT_HEADER = "C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\WrongHeader.csv";
 
+   private String INDIA_STATE_CODE_CSV ="C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCode.csv";
+
     //TC 1.1
     @Test
     public void givenIndianCensusCSVFile_WhenLoad_ShouldReturnCorrectRecords() throws CensusAnalyzerCustomException {
@@ -24,6 +28,15 @@ public class CensusAnalyserTestFile {
         Assertions.assertEquals(29, count);
 
     }
+    @Test
+    public void givenIndiaStateCodeCSVFile_WhenCorrectPath_ShouldReturnsCorrectRecords() throws StateCodeCustomException {
+        StateCode censusAnalyser = new StateCode();
+
+        int numOfRecords = censusAnalyser.loadIndianStateCode(INDIA_STATE_CODE_CSV);
+        Assertions.assertEquals(10,numOfRecords);
+    }
+
+
     @Test
     public void givenIndiaCensusData_WithWrongFile_ShouldThrowExceptionSadTest() {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
@@ -59,4 +72,6 @@ public class CensusAnalyserTestFile {
         });
         Assertions.assertEquals(CENSUS_WRONG_DELIMITER_OR_WRONG_HEADER, exceptionRule.type);
     }
+
+
 }
