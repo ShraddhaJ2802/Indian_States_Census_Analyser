@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.example.CensusAnalyzerCustomException.ExceptionType.*;
+import static org.example.StateCodeCustomException.ExceptionType.STATE_CODE_FILE_PROBLEM;
 
 public class CensusAnalyserTestFile {
 
@@ -20,6 +21,7 @@ public class CensusAnalyserTestFile {
 
    private String INDIA_STATE_CODE_CSV ="C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCode.csv";
 
+   private String WRONG_STATE_CODE_FILE ="state.txt";
     //TC 1.1
     @Test
     public void givenIndianCensusCSVFile_WhenLoad_ShouldReturnCorrectRecords() throws CensusAnalyzerCustomException {
@@ -28,15 +30,17 @@ public class CensusAnalyserTestFile {
         Assertions.assertEquals(29, count);
 
     }
+
+    //TC2.1
     @Test
     public void givenIndiaStateCodeCSVFile_WhenCorrectPath_ShouldReturnsCorrectRecords() throws StateCodeCustomException {
         StateCode censusAnalyser = new StateCode();
 
         int numOfRecords = censusAnalyser.loadIndianStateCode(INDIA_STATE_CODE_CSV);
-        Assertions.assertEquals(10,numOfRecords);
+        Assertions.assertEquals(37,numOfRecords);
     }
 
-
+    //TC1.2
     @Test
     public void givenIndiaCensusData_WithWrongFile_ShouldThrowExceptionSadTest() {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
@@ -46,6 +50,19 @@ public class CensusAnalyserTestFile {
         Assertions.assertEquals(CENSUS_FILE_PROBLEM, exceptionRule.type);
 
     }
+
+    //TC2.2
+    @Test
+    public void givenIndiaStateData_WithWrongFile_ShouldThrowExceptionSadTest() {
+
+        StateCode stateCode = new StateCode();
+        StateCodeCustomException exceptionRule = Assertions.assertThrows(StateCodeCustomException.class,()->{
+            stateCode.loadIndianStateCode(WRONG_STATE_CODE_FILE);
+        });
+
+        Assertions.assertEquals(STATE_CODE_FILE_PROBLEM, exceptionRule.type);
+    }
+
     @Test
     public void givenIndiaCensusData_WithWrongFileFormat_ShouldThrowExceptionSadTest() {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
