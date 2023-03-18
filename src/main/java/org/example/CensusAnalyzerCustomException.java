@@ -13,7 +13,7 @@ public class CensusAnalyzerCustomException extends Throwable{
         this.type = type;
     }
 
-    public CensusAnalyzerCustomException(String message, ExceptionType type, Throwable cause) {
+   public CensusAnalyzerCustomException(String message, ExceptionType type, Throwable cause) {
         super(message, cause);
         this.type = type;
     }

@@ -35,4 +35,5 @@ public class CensusAnalyser {
             throw new RuntimeException(e);
         }
     }
+
 }
