@@ -11,28 +11,34 @@ import java.util.Iterator;
 
 public class CensusAnalyser {
 
-    public  int loadIndiaCensusData(String csvFilePath) throws CensusAnalyzerCustomException {
+    public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyzerCustomException {
 
-        try {
+        if(!csvFilePath.contains(".txt")){
 
-            Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
-            CsvToBeanBuilder<IndianCensusAnalyserCSVFile> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-            csvToBeanBuilder.withType(IndianCensusAnalyserCSVFile.class);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<IndianCensusAnalyserCSVFile> csvToBean = csvToBeanBuilder.build();
-            Iterator<IndianCensusAnalyserCSVFile> censusCSVIterator = csvToBean.iterator();
+            try {
 
-            int namOfEateries = 0;
-            while (censusCSVIterator.hasNext()) {
-                namOfEateries++;
-                IndianCensusAnalyserCSVFile censusData = censusCSVIterator.next();
+                Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
+                CsvToBeanBuilder<IndianCensusAnalyserCSVFile> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
+                csvToBeanBuilder.withType(IndianCensusAnalyserCSVFile.class);
+                csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+                CsvToBean<IndianCensusAnalyserCSVFile> csvToBean = csvToBeanBuilder.build();
+                Iterator<IndianCensusAnalyserCSVFile> censusCSVIterator = csvToBean.iterator();
+
+                int namOfEateries = 0;
+                while (censusCSVIterator.hasNext()) {
+                    namOfEateries++;
+                    IndianCensusAnalyserCSVFile censusData = censusCSVIterator.next();
+                }
+                return namOfEateries;
+            } catch (IOException e) {
+                throw new CensusAnalyzerCustomException(e.getMessage(), CensusAnalyzerCustomException.ExceptionType.CENSUS_FILE_PROBLEM);
+            } catch(RuntimeException e) {
+                throw new CensusAnalyzerCustomException("CSV File Must Have Comma As Delimiter Has Incorrect Header", CensusAnalyzerCustomException.ExceptionType.CENSUS_WRONG_DELIMITER_OR_WRONG_HEADER);
             }
-            return namOfEateries;
+
         }
-        catch(RuntimeException e) {
-            throw new CensusAnalyzerCustomException("CSV File Must Have Comma As Delimiter Or Has Incorrect Header", CensusAnalyzerCustomException.ExceptionType.CENSUS_WRONG_DELIMITER_OR_WRONG_HEADER);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        else {
+            throw new CensusAnalyzerCustomException("File Not Supported", CensusAnalyzerCustomException.ExceptionType.CENSUS_INCORRECT_FILE_FORMAT);
         }
     }
 
