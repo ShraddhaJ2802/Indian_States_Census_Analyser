@@ -20,8 +20,9 @@ public class CensusAnalyserTestFile {
     private static final String CSV_WITH_INCORRECT_HEADER = "C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\WrongHeader.csv";
 
    private String INDIA_STATE_CODE_CSV ="C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCode.csv";
+   private static final String INCORRECT_STATE_CODE_FILE_FORMAT = "C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCode.txt";
 
-   private String WRONG_STATE_CODE_FILE ="state.txt";
+    private String WRONG_STATE_CODE_FILE ="state.txt";
     //TC 1.1
     @Test
     public void givenIndianCensusCSVFile_WhenLoad_ShouldReturnCorrectRecords() throws CensusAnalyzerCustomException {
@@ -63,6 +64,7 @@ public class CensusAnalyserTestFile {
         Assertions.assertEquals(STATE_CODE_FILE_PROBLEM, exceptionRule.type);
     }
 
+    //TC 1.3
     @Test
     public void givenIndiaCensusData_WithWrongFileFormat_ShouldThrowExceptionSadTest() {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
@@ -72,6 +74,18 @@ public class CensusAnalyserTestFile {
         Assertions.assertEquals(CENSUS_INCORRECT_FILE_FORMAT, exceptionRule.type);
     }
 
+    //TC 2.3
+    @Test
+    public void givenIndiaStateCodeData_WithWrongFileFormat_ShouldThrowExceptionSadTest() {
+
+        StateCode stateCode = new StateCode();
+        StateCodeCustomException exceptionRule = Assertions.assertThrows(StateCodeCustomException.class,()->{
+            stateCode.loadIndianStateCode(INCORRECT_STATE_CODE_FILE_FORMAT);
+        });
+
+        Assertions.assertEquals(STATE_CODE_INCORRECT_FILE_FORMAT, exceptionRule.type);
+    }
+//TC 1.4
     @Test
     public void givenIndianCensusCSVFile_WhenCustomDelimiter_ShouldThrowException() {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
