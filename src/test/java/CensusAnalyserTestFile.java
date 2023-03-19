@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.example.CensusAnalyzerCustomException.ExceptionType.*;
 import static org.example.StateCodeCustomException.ExceptionType.STATE_CODE_FILE_PROBLEM;
+import static org.example.StateCodeCustomException.ExceptionType.STATE_CODE_WRONG_DELIMITER_OR_WRONG_HEADER;
 
 public class CensusAnalyserTestFile {
 
@@ -21,6 +22,9 @@ public class CensusAnalyserTestFile {
 
    private String INDIA_STATE_CODE_CSV ="C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCode.csv";
    private static final String INCORRECT_STATE_CODE_FILE_FORMAT = "C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCode.txt";
+
+    private static final String STATE_CODE_WRONG_DELIMITE_FILE = "C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCodeIncorrectDelimiter.csv";
+
 
     private String WRONG_STATE_CODE_FILE ="state.txt";
     //TC 1.1
@@ -94,7 +98,20 @@ public class CensusAnalyserTestFile {
         });
         Assertions.assertEquals(CENSUS_WRONG_DELIMITER_OR_WRONG_HEADER, exceptionRule.type);
     }
+    //TC 2.4
 
+    @Test
+    public void givenIndianStateCodeData_WhenCustomDelimiter_ShouldThrowException() {
+
+        StateCode stateCode = new StateCode();
+        StateCodeCustomException exceptionRule = Assertions.assertThrows(StateCodeCustomException.class,()->{
+            stateCode.loadIndianStateCode(STATE_CODE_WRONG_DELIMITE_FILE);
+        });
+        Assertions.assertEquals(STATE_CODE_WRONG_DELIMITER_OR_WRONG_HEADER, exceptionRule.type);
+    }
+
+
+    //TC 1.5
     @Test
     public void givenIndianCensusCSVFile_WhenIncorrectHeader_ShouldThrowExceptionSadTest() {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
@@ -103,6 +120,10 @@ public class CensusAnalyserTestFile {
         });
         Assertions.assertEquals(CENSUS_WRONG_DELIMITER_OR_WRONG_HEADER, exceptionRule.type);
     }
+
+    //TC 2.5
+
+
 
 
 }
