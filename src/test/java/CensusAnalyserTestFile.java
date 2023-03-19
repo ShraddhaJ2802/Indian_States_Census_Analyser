@@ -25,7 +25,7 @@ public class CensusAnalyserTestFile {
 
     private static final String STATE_CODE_WRONG_DELIMITE_FILE = "C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCodeIncorrectDelimiter.csv";
 
-
+    private static final String STATE_CODE_CSV_WRONG_HEADER ="C:\\Users\\Icon\\IdeaProjects\\Indian_States_Census_Analyser\\src\\main\\resources\\StateCodeWrongHeader";
     private String WRONG_STATE_CODE_FILE ="state.txt";
     //TC 1.1
     @Test
@@ -123,6 +123,15 @@ public class CensusAnalyserTestFile {
 
     //TC 2.5
 
+    @Test
+    public void givenIndianStateCodeData_WhenIncorrectHeader_ShouldThrowExceptionSadTest() {
+
+        StateCode stateCode = new StateCode();
+        StateCodeCustomException exceptionRule = Assertions.assertThrows(StateCodeCustomException.class,()->{
+            stateCode.loadIndianStateCode(STATE_CODE_CSV_WRONG_HEADER);
+        });
+        Assertions.assertEquals(STATE_CODE_WRONG_DELIMITER_OR_WRONG_HEADER, exceptionRule.type);
+    }
 
 
 
